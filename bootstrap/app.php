@@ -15,13 +15,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withSchedule(function (Schedule $schedule) {
         $schedule->call(function(){
             Elmikeev::get_orders();
-        })->daily();
+        })->everyFiveMinutes();
         $schedule->call(function(){
             Elmikeev::get_sales();
-        })->daily();
+        })->everyFiveMinutes();
         $schedule->call(function(){
             Elmikeev::get_stocks();
-        })->daily();
+        })->everyFiveMinutes();
+        $schedule->call(function(){
+            Elmikeev::get_incomes();
+        })->everyFiveMinutes();
     })
     ->withMiddleware(function (Middleware $middleware): void {
         //
