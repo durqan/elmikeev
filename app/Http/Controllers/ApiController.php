@@ -8,6 +8,6 @@ class ApiController extends Controller
 {
     public function index()
     {
-        dd(Elmikeev::get_incomes());
+        dd(Elmikeev::get_stocks());
     }
 }

@@ -94,6 +94,8 @@ class Elmikeev
 
         $last_page = $response['meta']['last_page'];
 
+        dd(Stocks::insert($response['data']));
+
         DB::beginTransaction();
 
         try {
