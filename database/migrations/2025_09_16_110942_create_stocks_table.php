@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer("quantity");
             $table->boolean("is_supply");
             $table->boolean("is_realization");
+            $table->integer("quantity_full");
             $table->string("warehouse_name");
             $table->tinyInteger("in_way_to_client");
             $table->tinyInteger("in_way_from_client");
