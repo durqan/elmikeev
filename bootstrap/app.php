@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
         })->daily();
         $schedule->call(function(){
             Elmikeev::get_incomes();
-        })->everyMinute();
+        })->daily();
     })
     ->withMiddleware(function (Middleware $middleware): void {
         //

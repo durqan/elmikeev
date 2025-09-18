@@ -8,7 +8,6 @@ use App\Models\Sales;
 use App\Models\SchedulesLogs;
 use App\Models\Stocks;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Elmikeev
@@ -97,7 +96,7 @@ class Elmikeev
         $response = $client->get('http://'.self::$host.'/api/stocks?dateFrom='.$date_from.'&page=1&key='.self::$key);
 
         if($response->getStatusCode() != 200){
-            SchedulesLogs::insert(['action' => 'get_stocks', 'response' => $response->getReasonPhrase()]);
+            SchedulesLogs::insert(['action' => 'get_stocks', 'response' => substr($response->getReasonPhrase(), 0, 100)]);
             return $response->getReasonPhrase();
         }
 
@@ -120,7 +119,7 @@ class Elmikeev
             DB::commit();
             SchedulesLogs::insert(['action' => 'get_stocks', 'response' => 'success']);
         } catch (\Exception $e) {
-            SchedulesLogs::insert(['action' => 'get_stocks', 'response' => $e->getMessage()]);
+            SchedulesLogs::insert(['action' => 'get_stocks', 'response' => substr($e->getMessage(), 0, 100)]);
             DB::rollBack();
             return $e->getMessage();
         }
