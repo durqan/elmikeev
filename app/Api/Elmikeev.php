@@ -5,6 +5,7 @@ namespace App\Api;
 use App\Models\Incomes;
 use App\Models\Orders;
 use App\Models\Sales;
+use App\Models\SchedulesLogs;
 use App\Models\Stocks;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -22,8 +23,10 @@ class Elmikeev
 
         $response = $client->get('http://'.self::$host.'/api/orders?dateFrom='.$date_from.'&dateTo='.$date_to.'&page=1&key='.self::$key);
 
-        if($response->getStatusCode() != 200)
+        if($response->getStatusCode() != 200){
+            SchedulesLogs::insert(['action' => 'get_orders', 'response' => $response->getReasonPhrase()]);
             return $response->getReasonPhrase();
+        }
 
         $response = json_decode($response->getBody()->getContents(), true);
 
@@ -41,10 +44,12 @@ class Elmikeev
                 Orders::insert($response['data']);
                 sleep(1);
             }
+            SchedulesLogs::insert(['action' => 'get_orders', 'response' => 'success']);
             DB::commit();
         } catch (\Exception $e) {
-            return $e->getMessage();
+            SchedulesLogs::insert(['action' => 'get_orders', 'response' => $e->getMessage()]);
             DB::rollBack();
+            return $e->getMessage();
         }
     }
     public static function get_sales()
@@ -55,8 +60,10 @@ class Elmikeev
 
         $response = $client->get('http://'.self::$host.'/api/sales?dateFrom='.$date_from.'&dateTo='.$date_to.'&page=1&key='.self::$key);
 
-        if($response->getStatusCode() != 200)
+        if($response->getStatusCode() != 200){
+            SchedulesLogs::insert(['action' => 'get_sales', 'response' => $response->getReasonPhrase()]);
             return $response->getReasonPhrase();
+        }
 
         $response = json_decode($response->getBody()->getContents(), true);
 
@@ -74,10 +81,12 @@ class Elmikeev
                 Sales::insert($response['data']);
                 sleep(1);
             }
+            SchedulesLogs::insert(['action' => 'get_sales', 'response' => 'success']);
             DB::commit();
         } catch (\Exception $e) {
-            return $e->getMessage();
+            SchedulesLogs::insert(['action' => 'get_sales', 'response' => $e->getMessage()]);
             DB::rollBack();
+            return $e->getMessage();
         }
     }
     public static function get_stocks()
@@ -87,8 +96,10 @@ class Elmikeev
 
         $response = $client->get('http://'.self::$host.'/api/stocks?dateFrom='.$date_from.'&page=1&key='.self::$key);
 
-        if($response->getStatusCode() != 200)
+        if($response->getStatusCode() != 200){
+            SchedulesLogs::insert(['action' => 'get_stocks', 'response' => $response->getReasonPhrase()]);
             return $response->getReasonPhrase();
+        }
 
         $response = json_decode($response->getBody()->getContents(), true);
 
@@ -107,9 +118,11 @@ class Elmikeev
                 sleep(1);
             }
             DB::commit();
+            SchedulesLogs::insert(['action' => 'get_stocks', 'response' => 'success']);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            SchedulesLogs::insert(['action' => 'get_stocks', 'response' => $e->getMessage()]);
             DB::rollBack();
+            return $e->getMessage();
         }
     }
     public static function get_incomes()
@@ -120,8 +133,10 @@ class Elmikeev
 
         $response = $client->get('http://'.self::$host.'/api/incomes?dateFrom='.$date_from.'&dateTo='.$date_to.'&page=1&key='.self::$key);
 
-        if($response->getStatusCode() != 200)
+        if($response->getStatusCode() != 200){
+            SchedulesLogs::insert(['action' => 'get_incomes', 'response' => $response->getReasonPhrase()]);
             return $response->getReasonPhrase();
+        }
 
         $response = json_decode($response->getBody()->getContents(), true);
 
@@ -140,9 +155,11 @@ class Elmikeev
                 sleep(1);
             }
             DB::commit();
+            SchedulesLogs::insert(['action' => 'get_incomes', 'response' => 'success']);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            SchedulesLogs::insert(['action' => 'get_incomes', 'response' => $e->getMessage()]);
             DB::rollBack();
+            return $e->getMessage();
         }
     }
 }
