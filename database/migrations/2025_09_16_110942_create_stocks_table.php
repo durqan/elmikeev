@@ -13,25 +13,25 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->date("date");
-            $table->date("last_change_date");
-            $table->string("supplier_article");
-            $table->string("tech_size");
-            $table->integer("barcode");
-            $table->integer("quantity");
-            $table->boolean("is_supply");
-            $table->boolean("is_realization");
-            $table->integer("quantity_full");
-            $table->string("warehouse_name");
-            $table->tinyInteger("in_way_to_client");
-            $table->tinyInteger("in_way_from_client");
-            $table->integer("nm_id");
-            $table->string("subject");
-            $table->string("category");
-            $table->string("brand");
-            $table->integer("sc_code");
-            $table->string("price");
-            $table->string("discount");
+            $table->date("date")->nullable();
+            $table->date("last_change_date")->nullable();
+            $table->string("supplier_article")->nullable();
+            $table->string("tech_size")->nullable();
+            $table->integer("barcode")->nullable();
+            $table->integer("quantity")->nullable();
+            $table->boolean("is_supply")->nullable();
+            $table->boolean("is_realization")->nullable();
+            $table->integer("quantity_full")->nullable();
+            $table->string("warehouse_name")->nullable();
+            $table->tinyInteger("in_way_to_client")->nullable();
+            $table->tinyInteger("in_way_from_client")->nullable();
+            $table->integer("nm_id")->nullable();
+            $table->string("subject")->nullable();
+            $table->string("category")->nullable();
+            $table->string("brand")->nullable();
+            $table->integer("sc_code")->nullable();
+            $table->string("price")->nullable();
+            $table->string("discount")->nullable();
             $table->timestamps();
         });
     }
